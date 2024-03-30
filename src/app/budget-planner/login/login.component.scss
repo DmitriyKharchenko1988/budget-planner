@@ -1,0 +1,30 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f3f5f9;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #008080, #80ced6);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  color: white;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 100px auto 50px auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
