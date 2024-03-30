@@ -28,3 +28,53 @@ body {
   margin-bottom: 20px;
   text-align: center;
 }
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 90%;
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid #008080;
+  background-color: #f5f5f5;
+}
+
+.input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background: linear-gradient(135deg, #008080, #80ced6);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background: #67bbc6;
+}
+
+p {
+  text-align: center;
+  cursor: pointer;
+  color: #666666;
+  transition: color 0.3s ease;
+}
+
+.highlighted {
+  text-decoration: underline;
+}
+
+.highlighted:hover {
+  color: #80ced6;
+  text-decoration: underline;
+}
