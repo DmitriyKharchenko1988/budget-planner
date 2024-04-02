@@ -1,0 +1,20 @@
+<div class="navbar">
+  <h2>Головна</h2>
+</div>
+
+<div>
+  <div class="toggle-button-row" (click)="toggleSlideOut()">
+    <mat-icon>menu</mat-icon>
+  </div>
+</div>
+
+<div class="slide-out-panel" [class.slide-out]="isSlideOut">
+  <div class="slide-out-content">
+    <h3 class="nav"> Планування бюджету </h3>
+    <p class="edit-col" (click)="onDash()">Інформаційна панель</p>
+    <p class="edit-col" (click)="onProfile()">Профіль</p>
+    <p class="edit-col" (click)="onHistory()">Попередня історія</p>
+    <p class="edit-col" (click)="onLogout()">Вийти з системи</p>
+  </div>
+</div>
+
