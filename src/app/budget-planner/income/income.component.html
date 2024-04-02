@@ -1,1 +1,38 @@
-<p>income works!</p>
+<div class="navbar">
+  <h2>ДOХІД</h2>
+</div>
+
+<div class="main-container">
+  <div class="container">
+    <h2>Дохід</h2>
+    <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()" class="input-form">
+      <div class="form-group">
+        <select formControlName="month" id="month" class="form-control" (change)="onChange($event)">
+          <option value="" disabled>Місяць</option>
+          <option value="Січень">Січень</option>
+          <option value="Лютий">Лютий</option>
+          <option value="Березень">Березень</option>
+        </select>
+      </div>
+      <div class="form-group">
+      </div>
+      <div class="total-income">
+        Загальний дохід за {{selectedMonth}}: {{calculateTotalIncome(selectedMonth)}}грн.
+      </div>
+      <div class="form-group">
+        <label for="investments">Додатковй заробіток:</label>
+        <select formControlName="investments" id="investments" class="form-control"
+                [class.disabled-dropdown]="!monthSelected">
+          <option value="" disabled>Вибір</option>
+          <option value="Інветиції">Інветиції</option>
+          <option value="Рента житла">Рента житла</option>
+          <option value="Фріланс">Фріланс</option>
+        </select>
+      </div>
+      <div class="form-group">
+      </div>
+      <div class="form-group">
+      </div>
+    </form>
+  </div>
+</div>
