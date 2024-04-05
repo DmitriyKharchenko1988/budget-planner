@@ -1,4 +1,89 @@
 <!--<div class="navbar">-->
+<!--  <h2>-->
+<!--    EXPENSE-->
+<!--  </h2>-->
+<!--</div>-->
+
+<!--<div class="main-container">-->
+<!--  <div class="container">-->
+<!--    <h2>Expense</h2>-->
+<!--    <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()" class="input-form">-->
+<!--      <div class="form-group">-->
+<!--        <select formControlName="month" id="month" class="form-control" (change)="onChange($event)">-->
+<!--          <option value="" disabled>Select Month</option>-->
+<!--          <option value="January">January</option>-->
+<!--          <option value="February">February</option>-->
+<!--          <option value="March">March</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--      </div>-->
+<!--      <div class="total-income">-->
+<!--        Total Income for {{ selectedMonth }}: ${{ calculateTotalIncome(selectedMonth) }}-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="investments">Investments:</label>-->
+<!--        <select formControlName="investments" id="investments" class="form-control"-->
+<!--                [class.disabled-dropdown]="!monthSelected">-->
+<!--          <option value="" disabled>Select Investments</option>-->
+<!--          <option value="401(k)">401(k)</option>-->
+<!--          <option value="Stocks">Stocks</option>-->
+<!--          <option value="Real Estate">Real Estate</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="source">Source of Income:</label>-->
+<!--        <select formControlName="source" id="source" class="form-control"-->
+<!--                [class.disabled-dropdown]="!monthSelected">-->
+<!--          <option value="" disabled>Select Source</option>-->
+<!--          <option value="Salary">Salary</option>-->
+<!--          <option value="Freelancing">Freelancing</option>-->
+<!--          <option value="Rental Income">Rental Income</option>-->
+<!--        </select>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="amount">Amount:</label>-->
+<!--        <input type="number" formControlName="amount" id="amount" class="form-control"-->
+<!--               placeholder="Enter amount" [class.disabled-dropdown]="!monthSelected">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--      </div>-->
+<!--      <button type="submit" class="btn btn-primary" (click)="onSubmit()"-->
+<!--              [class.disabled-dropdown]="!monthSelected">Add-->
+<!--      </button>-->
+<!--    </form>-->
+
+<!--    <hr>-->
+<!--    <h3>Income List - {{ selectedMonth }}</h3>-->
+<!--    <table class="table">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Source of Income</th>-->
+<!--        <th>Amount</th>-->
+<!--        <th>Investments</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let income of getFilteredIncomes()">-->
+<!--        <td>{{ income.source }}</td>-->
+<!--        <td>{{ income.amount }}</td>-->
+<!--        <td>{{ income.investments }}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--    <div class="input-form">-->
+<!--      <button class="btn btn-primary" (click)="onBack()">Back</button>-->
+<!--      <div class="form-group">-->
+<!--      </div>-->
+<!--      <button class="btn btn-primary" (click)="saveForm()">Save</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--<div class="navbar">-->
 <!--  <h2>ДOХІД</h2>-->
 <!--</div>-->
 
@@ -84,19 +169,18 @@
 <!--</div>-->
 
 
-
 <div class="navbar">
   <h2>
-    ДОХІД
+    ВИТРАТИ
   </h2>
 </div>
 
 <div class="main-container">
   <div class="container">
-    <h2>Прибуток</h2>
-    <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()" class="input-form">
+    <h2>Витрати</h2>
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmitExpense()" class="input-form">
       <div class="form-group">
-        <select formControlName="month" id="month" class="form-control" (change)="onChange($event)">
+        <select formControlName="month" id="month" class="form-control" (change)="onChangeExpense($event)">
           <option value="" disabled>Вибрати місяць</option>
           <option value="January">Січень</option>
           <option value="February">Лютий</option>
@@ -105,58 +189,42 @@
       </div>
       <div class="form-group">
       </div>
-      <div class="total-income">
-        Загальний дохід за {{ selectedMonth }}:{{ calculateTotalIncome(selectedMonth) }}
+      <div class="total-expense">
+        Загальний витрати за {{ selectedMonth }}:{{ calculateTotalExpense(selectedMonth) }}
       </div>
       <div class="form-group">
-        <label for="investments">Інвестиції:</label>
-        <select formControlName="investments" id="investments" class="form-control"
+        <label for="expenseType">Тип витрат:</label>
+        <select formControlName="expenseType" id="expenseType" class="form-control"
                 [class.disabled-dropdown]="!monthSelected">
-          <option value="" disabled>Оберіть інвестиції</option>
+          <option value="" disabled>Оберіть витрати</option>
           <option value="401(k)">Рента</option>
           <option value="Stocks">Акції</option>
           <option value="Real Estate">Нерухомість</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="source">Джерело доходу:</label>
-        <select formControlName="source" id="source" class="form-control"
-                [class.disabled-dropdown]="!monthSelected">
-          <option value="" disabled>Оберіть джерело</option>
-          <option value="ЗП">ЗП</option>
-          <option value="Freelancing">Фріланс</option>
-          <option value="Rental Income">Доп.заробіток</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="amount">Сума:</label>
-        <input type="number" formControlName="amount" id="amount" class="form-control"
+        <label for="expenseAmount">Сума:</label>
+        <input type="number" formControlName="expenseAmount" id="expenseAmount" class="form-control"
                placeholder="Введіть суму" [class.disabled-dropdown]="!monthSelected">
       </div>
-      <div class="form-group">
-      </div>
-      <div class="form-group">
-      </div>
-      <button type="submit" class="btn btn-primary" (click)="onSubmit()"
-              [class.disabled-dropdown]="!monthSelected">Додати
+      <button type="submit" class="btn btn-primary" (click)="onSubmitExpense()"
+              [class.disabled-dropdown]="!monthSelected">Додати витрати
       </button>
     </form>
 
     <hr>
-    <h3>Перелік доходів - {{ selectedMonth }}</h3>
+    <h3>Перелік витрат - {{ selectedMonth }}</h3>
     <table class="table">
       <thead>
       <tr>
-        <th>Джерело доходу</th>
+        <th>Тип витрат</th>
         <th>Сума</th>
-        <th>Investments</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let income of getFilteredIncomes()">
-        <td>{{ income.source }}</td>
-        <td>{{ income.amount }}</td>
-        <td>{{ income.investments }}</td>
+      <tr *ngFor="let expense of getFilteredExpenses()">
+        <td>{{ expense.expenseType }}</td>
+        <td>{{ expense.expenseAmount }}</td>
       </tr>
       </tbody>
     </table>
