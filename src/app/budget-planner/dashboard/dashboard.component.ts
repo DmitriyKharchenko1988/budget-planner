@@ -13,11 +13,11 @@ import {Router} from "@angular/router";
 })
 export class DashboardComponent {
   // Income
-  lastMonthIncome = ['Січень: 20000 грн.', 'Лютий: 18000 грн.', 'Березень: 25000 грн.'];
+  lastMonthIncome = ['Січень: 330000 грн.', 'Лютий: 27000 грн.', 'Березень: 31000 грн.'];
   currentMonthIncome = '28000 грн';
 
   // Expense
-  lastMonthExpense = ['Січень: 12000 грн.', 'Лютий: 9000 грн.', 'Березень: 15000 грн.'];
+  lastMonthExpense = ['Січень: 15000 грн.', 'Лютий: 20000 грн.', 'Березень: 18000 грн.'];
   currentMonthExpense = '140000 грн';
 
   // Todo Transaction

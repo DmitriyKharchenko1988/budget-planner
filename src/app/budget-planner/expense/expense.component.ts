@@ -15,7 +15,7 @@ export class ExpenseComponent {
   expenseForm: any;
   selectedMonth: string;
   expenses: { month: string, expenseAmount: number }[] = [
-    {month: 'January', expenseAmount: 15000},
+    {month: 'January', expenseAmount: 18888000},
     {month: 'February', expenseAmount: 20000},
     {month: 'March', expenseAmount: 18000},
   ];

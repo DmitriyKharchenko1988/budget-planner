@@ -8,6 +8,9 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
   max-width: 800px;
   margin: 0 auto;
 }
@@ -58,7 +61,8 @@ body {
   margin-bottom: 20px;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   padding: 12px;
   border: 1px solid #dee2e6;
   text-align: left;
@@ -84,26 +88,4 @@ body {
   border-radius: 6px;
 }
 
-.disabled-dropdown {
-  color: #6c757d;
-  background-color: #e9ecef;
-  pointer-events: none;
-}
-
-.navbar {
-  background: linear-gradient(135deg, #008080, #80ced6);
-  padding: 5px 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  color: #ffffff;
-  width: 800px;
-  margin: 0 auto;
-}
-
-.strikeout {
-  text-decoration: line-through;
-}
-
-/*# sourceMappingURL=todo.component.css.map */
+/*# sourceMappingURL=history.component.css.map */

@@ -6,6 +6,8 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {IncomeComponent} from "./income/income.component";
 import {ExpenseComponent} from "./expense/expense.component";
 import {TodoComponent} from "./todo/todo.component";
+import {HistoryComponent} from "./history/history.component";
+import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -14,6 +16,8 @@ const routes: Routes = [
   {path: 'income', component: IncomeComponent},
   {path: 'expense', component: ExpenseComponent},
   {path: 'todo', component: TodoComponent},
+  {path: 'history', component: HistoryComponent},
+  {path: 'profile', component: ProfileComponent},
 ];
 
 @NgModule({
