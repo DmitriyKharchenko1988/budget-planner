@@ -1,7 +1,9 @@
+// import {CommonModule} from '@angular/common';
 // import {Component} from '@angular/core';
-// import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-// import {CommonModule} from "@angular/common";
-// import {Router} from "@angular/router";
+// import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+// import {Router} from '@angular/router';
+// import moment from 'moment';
+// import 'moment/locale/uk';
 //
 // @Component({
 //   selector: 'app-income',
@@ -29,15 +31,38 @@
 //
 //   constructor(public fb: FormBuilder, public router: Router) {
 //     const currentDate = new Date();
-//     this.selectedMonth = currentDate.toLocaleString('default', {month: 'long'})
+//     this.selectedMonth = moment().locale('uk').format('MMMM');
+//
+//     if (typeof localStorage !== 'undefined') {
+//       const januaryIncomesString = localStorage.getItem('januaryIncomes');
+//       this.januaryIncomes = januaryIncomesString ? JSON.parse(januaryIncomesString) : [
+//         {source: 'Зарплата', amount: 28000},
+//         {source: 'Доп.заробіток', amount: 5000}
+//       ];
+//
+//       const februaryIncomesString = localStorage.getItem('februaryIncomes');
+//       this.februaryIncomes = februaryIncomesString ? JSON.parse(februaryIncomesString) : [
+//         {source: 'Зарплата', amount: 25000},
+//         {source: 'Доп.заробіток', amount: 2000}
+//       ];
+//
+//       const marchIncomesString = localStorage.getItem('marchIncomes');
+//       this.marchIncomes = marchIncomesString ? JSON.parse(marchIncomesString) : [
+//         {source: 'Зарплата', amount: 30000},
+//         {source: 'Доп.заробіток', amount: 1000}
+//       ];
+//     } else {
+//       console.warn('localStorage is not available.');
+//     }
 //   }
 //
 //   ngOnInit(): void {
 //     this.incomeForm = this.fb.group({
 //       month: ['', Validators.required],
-//       source: ['', Validators.required],
+//       // source: ['', Validators.required],
 //       amount: ['', Validators.required],
-//       investments: ['', Validators.required]
+//       // investments: ['', Validators.required],
+//       incomeName: ['', Validators.required]
 //     });
 //   }
 //
@@ -49,19 +74,27 @@
 //
 //   calculateTotalIncome(month: string): number {
 //     let totalIncome = 0;
-//     for (const income of this.getIncomesForMonth(month)) {
+//     const incomes = this.getIncomesForMonth(month);
+//
+//     for (const income of incomes) {
 //       totalIncome += income.amount;
 //     }
 //     return totalIncome;
+//
+//
+//     // for (const income of this.getIncomesForMonth(month)) {
+//     //   totalIncome += income.amount;
+//     // }
+//     // return totalIncome;
 //   }
 //
 //   getIncomesForMonth(month: string): any[] {
 //     switch (month) {
-//       case 'January':
+//       case 'Січень':
 //         return this.januaryIncomes;
-//       case 'February':
+//       case 'Лютий':
 //         return this.februaryIncomes;
-//       case 'March':
+//       case 'Березень':
 //         return this.marchIncomes;
 //       default:
 //         return [];
@@ -71,13 +104,13 @@
 //   getFilteredIncomes() {
 //     let filteredIncomes: any[] = [];
 //     switch (this.selectedMonth) {
-//       case 'January':
+//       case 'Січень':
 //         filteredIncomes = [...this.januaryIncomes];
 //         break;
-//       case 'February':
+//       case 'Лютий':
 //         filteredIncomes = [...this.februaryIncomes];
 //         break;
-//       case 'March':
+//       case 'Березень':
 //         filteredIncomes = [...this.marchIncomes];
 //         break;
 //       default:
@@ -88,56 +121,70 @@
 //
 //   onSubmit() {
 //     if (this.incomeForm.valid) {
+//       const selectedMonth = this.incomeForm.get('month').value;
 //       const newIncome = this.incomeForm.value;
+//       newIncome.source = newIncome.incomeName.trim();
+//
 //       switch (this.selectedMonth) {
-//         case 'January':
+//         case 'Січень':
 //           this.januaryIncomes.push(newIncome);
 //           break;
-//         case 'February':
+//         case 'Лютий':
 //           this.februaryIncomes.push(newIncome);
 //           break;
-//         case 'March':
+//         case 'Березень':
 //           this.marchIncomes.push(newIncome);
 //           break;
 //         default:
 //           break;
 //       }
+//
+//       localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
+//       localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
+//       localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
+//
 //       this.incomeForm.reset();
-//       this.incomeForm.patchValue({month: '', source: '', amount: '', investments: ''})
+//       this.incomeForm.patchValue({month: selectedMonth, amount: '', incomeName: ''});
+//
 //     }
 //   }
 //
 //   saveForm() {
-//     console.log("Форма збережена")
+//     console.log("Форма збережена!");
 //   }
 //
 //   onBack() {
-//     this.router.navigate(['/budget-planner/dashboard'])
+//     this.router.navigate(['/budget-planner/dashboard']);
 //   }
 // }
 
+import {CommonModule} from '@angular/common';
+import {Component} from '@angular/core';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import moment from 'moment';
+import 'moment/locale/uk';
+import {MatOption, MatSelect} from "@angular/material/select";
+import {CustomMatOptionComponent} from "../../custom-mat-option/custom-mat-option.component";
 
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-income',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatSelect, MatOption, CustomMatOptionComponent],
   templateUrl: './income.component.html',
   styleUrl: './income.component.scss'
 })
 export class IncomeComponent {
   incomeForm: any;
   selectedMonth: any;
+  incomeSources: string[] = [];
   januaryIncomes: any[] = [
     {source: 'Зарплата', amount: 28000},
     {source: 'Доп.заробіток', amount: 5000}
   ];
   februaryIncomes: any[] = [
-    {source: 'Зарплата', amount: 25000 },
+    {source: 'Зарплата', amount: 25000},
     {source: 'Доп.заробіток', amount: 2000}
   ];
   marchIncomes: any[] = [
@@ -145,40 +192,58 @@ export class IncomeComponent {
     {source: 'Доп.заробіток', amount: 1000}
   ];
   monthSelected: boolean = false;
-  constructor(public fb: FormBuilder,public router:Router) {
+
+  constructor(public fb: FormBuilder, public router: Router) {
     const currentDate = new Date();
-    this.selectedMonth = currentDate.toLocaleString('default', { month: 'long' });
+    this.selectedMonth = moment().locale('uk').format('MMMM');
+
+    if (typeof localStorage !== 'undefined') {
+      const incomeSourcesString = localStorage.getItem('incomeSources');
+      this.incomeSources = incomeSourcesString ? JSON.parse(incomeSourcesString) : ['ЗП', 'Freelancing', 'Rental Income'];
+    } else {
+      console.warn('localStorage is not available.');
+    }
   }
+
   ngOnInit(): void {
     this.incomeForm = this.fb.group({
       month: ['', Validators.required],
       source: ['', Validators.required],
       amount: ['', Validators.required],
-      investments: ['', Validators.required]
+      // investments: ['', Validators.required],
+      incomeName: ['', Validators.required]
     });
   }
 
   onChange(event: any) {
     this.selectedMonth = event.target.value
-    this.monthSelected=true;
+    this.monthSelected = true;
     this.getFilteredIncomes();
   }
 
   calculateTotalIncome(month: string): number {
     let totalIncome = 0;
-    for (const income of this.getIncomesForMonth(month)) {
+    const incomes = this.getIncomesForMonth(month);
+
+    for (const income of incomes) {
       totalIncome += income.amount;
     }
     return totalIncome;
+
+
+    // for (const income of this.getIncomesForMonth(month)) {
+    //   totalIncome += income.amount;
+    // }
+    // return totalIncome;
   }
 
   getIncomesForMonth(month: string): any[] {
     switch (month) {
-      case 'January':
+      case 'Січень':
         return this.januaryIncomes;
-      case 'February':
+      case 'Лютий':
         return this.februaryIncomes;
-      case 'March':
+      case 'Березень':
         return this.marchIncomes;
       default:
         return [];
@@ -188,13 +253,13 @@ export class IncomeComponent {
   getFilteredIncomes() {
     let filteredIncomes: any[] = [];
     switch (this.selectedMonth) {
-      case 'January':
+      case 'Січень':
         filteredIncomes = [...this.januaryIncomes];
         break;
-      case 'February':
+      case 'Лютий':
         filteredIncomes = [...this.februaryIncomes];
         break;
-      case 'March':
+      case 'Березень':
         filteredIncomes = [...this.marchIncomes];
         break;
       default:
@@ -202,24 +267,43 @@ export class IncomeComponent {
     }
     return filteredIncomes;
   }
+
+  deleteIncomeSource(index:number) {
+    this.incomeSources.splice(index,1);
+    localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources))
+  }
+
   onSubmit() {
     if (this.incomeForm.valid) {
+      const selectedMonth = this.incomeForm.get('month').value;
       const newIncome = this.incomeForm.value;
+      newIncome.source = newIncome.source.trim() || newIncome.incomeName.trim();
+
+      if (!this.incomeSources.includes(newIncome.source)) {
+        this.incomeSources.push(newIncome.source)
+        localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources))
+      }
+
       switch (this.selectedMonth) {
-        case 'January':
+        case 'Січень':
           this.januaryIncomes.push(newIncome);
           break;
-        case 'February':
+        case 'Лютий':
           this.februaryIncomes.push(newIncome);
           break;
-        case 'March':
+        case 'Березень':
           this.marchIncomes.push(newIncome);
           break;
         default:
           break;
       }
+
+      localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
+      localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
+      localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
+
       this.incomeForm.reset();
-      this.incomeForm.patchValue({ month: '', source: '', amount: '', investments: '' });
+      this.incomeForm.patchValue({month: selectedMonth, amount: '', incomeName: ''});
     }
   }
 
