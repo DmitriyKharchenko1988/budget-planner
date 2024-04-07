@@ -164,14 +164,11 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import moment from 'moment';
 import 'moment/locale/uk';
-import {MatOption, MatSelect} from "@angular/material/select";
-import {CustomMatOptionComponent} from "../../custom-mat-option/custom-mat-option.component";
-
 
 @Component({
   selector: 'app-income',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatSelect, MatOption, CustomMatOptionComponent],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './income.component.html',
   styleUrl: './income.component.scss'
 })
@@ -268,9 +265,11 @@ export class IncomeComponent {
     return filteredIncomes;
   }
 
-  deleteIncomeSource(index:number) {
-    this.incomeSources.splice(index,1);
-    localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources))
+  deleteIncomeSource(index: number) {
+    if (this.incomeSources.length > 1) {
+      this.incomeSources.splice(index, 1);
+      localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources));
+    }
   }
 
   onSubmit() {

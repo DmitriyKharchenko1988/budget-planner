@@ -23,24 +23,24 @@
       </div>
 
       <div class="form-group">
-        <label for="source">Джерело доходу:</label>
-        <mat-select formControlName="source" class="form-control">
-          <mat-option value="">Оберіть джерело</mat-option>
-          <mat-option *ngFor="let source of incomeSources; let i = index" [value]="source">
-            <span>
-              <app-custom-mat-option [source]="source" [index]="i" (deleteRequest)="deleteIncomeSource(i)"></app-custom-mat-option>
-            </span>
-          </mat-option>
-        </mat-select>
-      </div>
-
-      <div class="form-group">
-        <label for="incomeName">Або введіть ваше джерело доходу:</label>
+        <label for="incomeName">Введіть ваше джерело доходу:</label>
         <input type="text" formControlName="incomeName" id="incomeName" class="form-control"
                [value]="incomeForm.get('source').value || ''"
                (input)="incomeForm.get('source').setValue($any($event.target).value.trim())"
                placeholder="Введіть назву доходу" [class.disabled-dropdown]="!monthSelected">
       </div>
+
+      <div class="form-group">
+        <label for="source">Або виберіть:</label>
+        <select formControlName="source" id="source" class="form-control"
+                [class.disabled-dropdown]="!monthSelected">
+          <option value="" >Вибрати</option>
+          <option value="Зп">ЗП</option>
+          <option value="Доп.заробіток">Доп.заробіток</option>
+          <option value=" Інветиції">Інветиції</option>
+        </select>
+      </div>
+
 
       <div class="form-group">
         <label for="amount">Сума:</label>
