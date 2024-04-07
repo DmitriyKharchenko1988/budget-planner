@@ -196,11 +196,37 @@ export class IncomeComponent {
 
     if (typeof localStorage !== 'undefined') {
       const incomeSourcesString = localStorage.getItem('incomeSources');
-      this.incomeSources = incomeSourcesString ? JSON.parse(incomeSourcesString) : ['ЗП', 'Freelancing', 'Rental Income'];
+      this.incomeSources = incomeSourcesString ? JSON.parse(incomeSourcesString) : [];
+
+      this.januaryIncomes = JSON.parse(localStorage.getItem('januaryIncomes') ?? '[]');
+      this.februaryIncomes = JSON.parse(localStorage.getItem('februaryIncomes') ?? '[]');
+      this.marchIncomes = JSON.parse(localStorage.getItem('marchIncomes') ?? '[]');
+
+      if (!this.januaryIncomes.length) {
+        this.januaryIncomes = [
+          {source: 'Зарплата', amount: 28000},
+          {source: 'Доп.заробіток', amount: 5000}
+        ];
+      }
+
+      if (!this.februaryIncomes.length) {
+        this.februaryIncomes = [
+          {source: 'Зарплата', amount: 25000},
+          {source: 'Доп.заробіток', amount: 2000}
+        ];
+      }
+
+      if (!this.marchIncomes.length) {
+        this.marchIncomes = [
+          {source: 'Зарплата', amount: 30000},
+          {source: 'Доп.заробіток', amount: 1000}
+        ];
+      }
     } else {
       console.warn('localStorage is not available.');
     }
   }
+
 
   ngOnInit(): void {
     this.incomeForm = this.fb.group({
@@ -276,22 +302,26 @@ export class IncomeComponent {
     if (this.incomeForm.valid) {
       const selectedMonth = this.incomeForm.get('month').value;
       const newIncome = this.incomeForm.value;
-      newIncome.source = newIncome.source.trim() || newIncome.incomeName.trim();
+      newIncome.source = newIncome.incomeName.trim();
 
       if (!this.incomeSources.includes(newIncome.source)) {
-        this.incomeSources.push(newIncome.source)
-        localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources))
+        this.incomeSources.push(newIncome.source);
+        localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources));
       }
+
 
       switch (this.selectedMonth) {
         case 'Січень':
           this.januaryIncomes.push(newIncome);
+          localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
           break;
         case 'Лютий':
           this.februaryIncomes.push(newIncome);
+          localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
           break;
         case 'Березень':
           this.marchIncomes.push(newIncome);
+          localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
           break;
         default:
           break;
@@ -303,6 +333,7 @@ export class IncomeComponent {
 
       this.incomeForm.reset();
       this.incomeForm.patchValue({month: selectedMonth, amount: '', incomeName: ''});
+      this.calculateTotalIncome(this.selectedMonth);
     }
   }
 

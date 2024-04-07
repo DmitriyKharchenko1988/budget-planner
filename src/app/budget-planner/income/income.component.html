@@ -34,10 +34,8 @@
         <label for="source">Або виберіть:</label>
         <select formControlName="source" id="source" class="form-control"
                 [class.disabled-dropdown]="!monthSelected">
-          <option value="" >Вибрати</option>
-          <option value="Зп">ЗП</option>
-          <option value="Доп.заробіток">Доп.заробіток</option>
-          <option value=" Інветиції">Інветиції</option>
+          <option value="">Вибрати</option>
+          <option *ngFor="let source of incomeSources" [value]="source">{{source}}</option>
         </select>
       </div>
 
