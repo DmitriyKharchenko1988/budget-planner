@@ -61,14 +61,17 @@
       <tr>
         <th>Джерело доходу</th>
         <th>Сума</th>
-        <th>Investments</th>
+        <th>Дії</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let income of getFilteredIncomes()">
+      <tr *ngFor="let income of getFilteredIncomes(); let i = index;">
         <td>{{ income.source }}</td>
         <td>{{ income.amount }}</td>
-        <td>{{ income.source }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm me-1" (click)="editIncome(i, income)">Редагувати</button>
+          <button class="btn btn-primary btn-sm me-1" (click)="deleteIncome(i)">Видалити</button>
+        </td>
       </tr>
       </tbody>
     </table>

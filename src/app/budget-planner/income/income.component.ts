@@ -175,6 +175,8 @@ import 'moment/locale/uk';
 export class IncomeComponent {
   incomeForm: any;
   selectedMonth: any;
+  selectedIndex: number | undefined;
+  selectedMonthForEdit: string | undefined;
   incomeSources: string[] = [];
   januaryIncomes: any[] = [
     {source: 'Зарплата', amount: 28000},
@@ -298,38 +300,100 @@ export class IncomeComponent {
     }
   }
 
+  editIncome(index: number, income: any) {
+    const selectedMonth = this.selectedMonth;
+    let incomeToEdit: any;
+
+    switch (selectedMonth) {
+      case 'Січень':
+        incomeToEdit = this.januaryIncomes[index];
+        break;
+      case 'Лютий':
+        incomeToEdit = this.februaryIncomes[index];
+        break;
+      case 'Березень':
+        incomeToEdit = this.marchIncomes[index];
+        break;
+      default:
+        return;
+    }
+    this.incomeForm.patchValue({
+      month: selectedMonth,
+      incomeName: income.source,
+      amount: income.amount
+    });
+
+    this.selectedIndex = index;
+    this.selectedMonthForEdit = this.selectedMonth;
+
+  }
+
+  deleteIncome(index: number) {
+    const selectedMonth = this.selectedMonth;
+
+    switch (selectedMonth) {
+      case 'Січень':
+        this.januaryIncomes.splice(index, 1);
+        localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
+        break;
+      case 'Лютий':
+        this.februaryIncomes.splice(index, 1);
+        localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
+        break;
+      case 'Березень':
+        this.marchIncomes.splice(index, 1);
+        localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
+        break;
+      default:
+        return;
+    }
+  }
+
   onSubmit() {
     if (this.incomeForm.valid) {
       const selectedMonth = this.incomeForm.get('month').value;
       const newIncome = this.incomeForm.value;
       newIncome.source = newIncome.incomeName.trim();
 
-      if (!this.incomeSources.includes(newIncome.source)) {
-        this.incomeSources.push(newIncome.source);
-        localStorage.setItem('incomeSources', JSON.stringify(this.incomeSources));
+      if (this.selectedIndex !== undefined && this.selectedMonthForEdit === this.selectedMonth) {
+        switch (this.selectedMonth) {
+          case 'Січень':
+            this.januaryIncomes[this.selectedIndex] = newIncome;
+            localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
+            break;
+          case 'Лютий':
+            this.februaryIncomes[this.selectedIndex] = newIncome;
+            localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
+            break;
+          case 'Березень':
+            this.marchIncomes[this.selectedIndex] = newIncome;
+            localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
+            break;
+        }
+        this.selectedIndex = undefined;
+        this.selectedMonthForEdit = undefined;
+      } else {
+
+        switch (this.selectedMonth) {
+          case 'Січень':
+            this.januaryIncomes.push(newIncome);
+            localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
+            break;
+          case 'Лютий':
+            this.februaryIncomes.push(newIncome);
+            localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
+            break;
+          case 'Березень':
+            this.marchIncomes.push(newIncome);
+            localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
+            break;
+          default:
+            break;
+        }
       }
-
-
-      switch (this.selectedMonth) {
-        case 'Січень':
-          this.januaryIncomes.push(newIncome);
-          localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
-          break;
-        case 'Лютий':
-          this.februaryIncomes.push(newIncome);
-          localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
-          break;
-        case 'Березень':
-          this.marchIncomes.push(newIncome);
-          localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
-          break;
-        default:
-          break;
-      }
-
-      localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
-      localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
-      localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
+      // localStorage.setItem('januaryIncomes', JSON.stringify(this.januaryIncomes));
+      // localStorage.setItem('februaryIncomes', JSON.stringify(this.februaryIncomes));
+      // localStorage.setItem('marchIncomes', JSON.stringify(this.marchIncomes));
 
       this.incomeForm.reset();
       this.incomeForm.patchValue({month: selectedMonth, amount: '', incomeName: ''});
