@@ -25,54 +25,57 @@
       <div class="form-group">
         <label for="incomeName">Введіть ваше джерело доходу:</label>
         <input type="text" formControlName="incomeName" id="incomeName" class="form-control"
-               [value]="incomeForm.get('source').value || ''"
-               (input)="incomeForm.get('source').setValue($any($event.target).value.trim())"
-               placeholder="Введіть назву доходу" [class.disabled-dropdown]="!monthSelected">
+          [value]="incomeForm.get('source').value || ''"
+          (input)="incomeForm.get('source').setValue($any($event.target).value.trim())"
+          placeholder="Введіть назву доходу" [class.disabled-dropdown]="!monthSelected">
       </div>
 
       <div class="form-group">
         <label for="source">Або виберіть:</label>
-        <select formControlName="source" id="source" class="form-control"
-                [class.disabled-dropdown]="!monthSelected">
+        <select formControlName="source" id="source" class="form-control" (change)="onSourceChange($event)"
+          [class.disabled-dropdown]="!monthSelected">
           <option value="">Вибрати</option>
           <option *ngFor="let source of incomeSources" [value]="source">{{source}}</option>
         </select>
+
       </div>
 
 
       <div class="form-group">
         <label for="amount">Сума:</label>
-        <input type="number" formControlName="amount" id="amount" class="form-control"
-               placeholder="Введіть суму" [class.disabled-dropdown]="!monthSelected">
+        <input type="number" formControlName="amount" id="amount" class="form-control" placeholder="Введіть суму"
+          [class.disabled-dropdown]="!monthSelected">
       </div>
       <div class="form-group">
       </div>
       <div class="form-group">
       </div>
-      <button type="submit" class="btn btn-primary" (click)="onSubmit()"
-              [class.disabled-dropdown]="!monthSelected">Додати
-      </button>
+      <!-- <button type="submit" class="btn btn-primary" (click)="onSubmit()"
+        [class.disabled-dropdown]="!monthSelected">Додати
+      </button> -->
+      <button type="submit" class="btn btn-primary" [class.disabled-dropdown]="!monthSelected">Додати</button>
+
     </form>
 
     <hr>
     <h3>Перелік доходів - {{ selectedMonth }}</h3>
     <table class="table">
       <thead>
-      <tr>
-        <th>Джерело доходу</th>
-        <th>Сума</th>
-        <th>Дії</th>
-      </tr>
+        <tr>
+          <th>Джерело доходу</th>
+          <th>Сума</th>
+          <th>Дії</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let income of getFilteredIncomes(); let i = index;">
-        <td>{{ income.source }}</td>
-        <td>{{ income.amount }} грн.</td>
-        <td>
-          <button class="btn btn-primary btn-edit" (click)="editIncome(i, income)">Редагувати</button>
-          <button class="btn btn-primary btn-edit" (click)="deleteIncome(i)">Видалити</button>
-        </td>
-      </tr>
+        <tr *ngFor="let income of getFilteredIncomes(); let i = index;">
+          <td>{{ income.source }}</td>
+          <td>{{ income.amount }} грн.</td>
+          <td>
+            <button class="btn btn-primary btn-edit" (click)="editIncome(i, income)">Редагувати</button>
+            <button class="btn btn-primary btn-edit" (click)="deleteIncome(i)">Видалити</button>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div class="input-form">
