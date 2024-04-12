@@ -18,6 +18,7 @@ const routes: Routes = [
   {path: 'todo', component: TodoComponent},
   {path: 'history', component: HistoryComponent},
   {path: 'profile', component: ProfileComponent},
+
 ];
 
 @NgModule({
