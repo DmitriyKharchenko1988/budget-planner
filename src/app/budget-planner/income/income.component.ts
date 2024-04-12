@@ -155,14 +155,15 @@ export class IncomeComponent {
     this.selectedIndex = index;
     this.selectedMonthForEdit = this.selectedMonth;
 
-    this.incomeForm.valueChanges.subscribe((formValue: any) => {
-      incomeToEdit.amount = formValue.amount;
+
+
       this.saveIncomesToLocalStorage();
+      this.calculateTotalIncome(this.selectedMonth);
 
-      this.incomeForm.get('incomeName').setValue('');
-      this.incomeForm.get('amount').setValue(null);
+      // this.incomeForm.get('incomeName').setValue('');
+      // this.incomeForm.get('amount').setValue(null);
 
-    });
+
   }
 
   saveIncomesToLocalStorage() {
@@ -220,7 +221,6 @@ export class IncomeComponent {
         this.selectedIndex = undefined;
         this.selectedMonthForEdit = undefined;
       } else {
-
         switch (this.selectedMonth) {
           case 'Січень':
             this.januaryIncomes.push(newIncome);
@@ -258,3 +258,5 @@ export class IncomeComponent {
     this.router.navigate(['/budget-planner/dashboard']);
   }
 }
+
+
