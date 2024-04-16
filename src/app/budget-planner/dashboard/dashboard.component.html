@@ -14,12 +14,12 @@
         <div class="month">
           <h3>За останні кілька місяців</h3>
           <ul>
-            <li *ngFor="let  monthIncome of lastMonthIncome">{{monthIncome}}</li>
+            <li *ngFor="let monthIncome of lastMonthIncome">{{monthIncome}}</li>
           </ul>
         </div>
         <div class="month">
-          <h3>Поточний місяць</h3>
-          <p>{{currentMonthIncome}}</p>
+          <h3>Загальний дохід за рік:</h3>
+          <p> {{ totalIncome }} грн.</p>
         </div>
         <button class="button" (click)="onIncome()">Глянути</button>
       </div>
@@ -58,9 +58,9 @@
       <hr>
       <ul>
         <li *ngFor="let  item of todoTransactions">
-              <span class="transaction-status">
-                <mat-icon>hourglass_empty</mat-icon>
-              </span>
+          <span class="transaction-status">
+            <mat-icon>hourglass_empty</mat-icon>
+          </span>
           <span class="transaction-details">{{item.description}}</span>
         </li>
       </ul>
