@@ -129,7 +129,7 @@
         <label for="source">Або виберіть:</label>
         <select formControlName="source" id="source" class="form-control" (change)="onSourceChange($event)"
           [class.disabled-dropdown]="!monthSelected">
-          <option value="">Вибрати</option>
+          <option value="" [defaultSelected]="" disabled>Вибрати</option>
           <option *ngFor="let source of incomeSources" [value]="source">{{source}}</option>
         </select>
 
