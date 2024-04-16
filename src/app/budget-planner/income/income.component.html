@@ -1,3 +1,89 @@
+<!-- <div class="navbar">
+  <h2>
+    ДОХІД
+  </h2>
+</div>
+
+<div class="main-container">
+  <div class="container">
+    <h2>Прибуток</h2>
+    <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()" class="input-form">
+      <div class="form-group">
+        <select formControlName="month" id="month" class="form-control" (change)="onChange($event)">
+          <option value="" disabled>Вибрати місяць</option>
+          <option value="Січень">Січень</option>
+          <option value="Лютий">Лютий</option>
+          <option value="Березень">Березень</option>
+        </select>
+      </div>
+      <div class="form-group">
+      </div>
+      <div class="total-income">
+        Загальний дохід за {{ selectedMonth }}:{{ calculateTotalIncome(selectedMonth) }} грн.
+      </div>
+
+      <div class="form-group">
+        <label for="incomeName">Введіть ваше джерело доходу:</label>
+        <input type="text" formControlName="incomeName" id="incomeName" class="form-control"
+          [value]="incomeForm.get('source').value || ''"
+          (input)="incomeForm.get('source').setValue($any($event.target).value.trim())"
+          placeholder="Введіть назву доходу" [class.disabled-dropdown]="!monthSelected">
+      </div>
+
+      <div class="form-group">
+        <label for="source">Або виберіть:</label>
+        <select formControlName="source" id="source" class="form-control" (change)="onSourceChange($event)"
+          [class.disabled-dropdown]="!monthSelected">
+          <option value="">Вибрати</option>
+          <option *ngFor="let source of incomeSources" [value]="source">{{source}}</option>
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+        <label for="amount">Сума:</label>
+        <input type="number" formControlName="amount" id="amount" class="form-control" placeholder="Введіть суму"
+          [class.disabled-dropdown]="!monthSelected">
+      </div>
+      <div class="form-group">
+      </div>
+      <div class="form-group">
+      </div>
+      <button type="submit" class="btn btn-primary" [class.disabled-dropdown]="!monthSelected">Додати</button>
+
+    </form>
+
+    <hr>
+    <h3>Перелік доходів - {{ selectedMonth }}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Джерело доходу</th>
+          <th>Сума</th>
+          <th>Дії</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let income of getFilteredIncomes(); let i = index;">
+          <td>{{ income.source }}</td>
+          <td>{{ income.amount }} грн.</td>
+          <td>
+            <button class="btn btn-primary btn-edit" (click)="editIncome(i, income)">Редагувати</button>
+            <button class="btn btn-primary btn-edit" (click)="deleteIncome(i)">Видалити</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="input-form">
+      <button class="btn btn-primary" (click)="onBack()">Назад</button>
+      <div class="form-group">
+      </div>
+      <button class="btn btn-primary" (click)="saveForm()">Сберегти</button>
+    </div>
+  </div>
+</div> -->
+
 <div class="navbar">
   <h2>
     ДОХІД
@@ -14,6 +100,15 @@
           <option value="Січень">Січень</option>
           <option value="Лютий">Лютий</option>
           <option value="Березень">Березень</option>
+          <option value="Квітень">Квітень</option>
+          <option value="Травень">Травень</option>
+          <option value="Червень ">Червень </option>
+          <option value="Липень ">Липень </option>
+          <option value="Серпень">Серпень</option>
+          <option value="Вересень">Вересень</option>
+          <option value="Жовтень">Жовтень</option>
+          <option value="Листопад">Листопад</option>
+          <option value="Грудень">Грудень</option>
         </select>
       </div>
       <div class="form-group">
