@@ -31,23 +31,26 @@ export class IncomeService {
     return totalIncome;
   }
 
-  getTotalIncomeForLastMonths(months: number): number[] {
+  getTotalIncomeForLastMonths(
+    months: number
+  ): Array<{ monthName: string; totalIncome: number }> {
     if (typeof localStorage === 'undefined') {
-      console.warn('localStorage is not available.');
       return [];
     }
 
     const currentMonth = new Date().getMonth();
-    const totalIncomes: number[] = [];
+    const totalIncomes: Array<{ monthName: string; totalIncome: number }> = [];
 
     for (let i = 0; i < months; i++) {
       const month = (currentMonth - i + 12) % 12;
-      const monthName = this.getMonthName(month);
+      const monthDate = new Date();
+      monthDate.setMonth(month);
+      const monthName = this.getMonthNameByDate(monthDate);
       const monthIncomes = JSON.parse(
         localStorage.getItem(monthName + 'Incomes') ?? '[]'
       );
       const totalIncome = this.calculateTotalIncomeForMonth(monthIncomes);
-      totalIncomes.unshift(totalIncome);
+      totalIncomes.push({ monthName, totalIncome });
     }
 
     return totalIncomes;
@@ -59,18 +62,18 @@ export class IncomeService {
 
   private getMonthName(month: number): string {
     const monthNames = [
-      'січень',
-      'лютий',
-      'березень',
-      'квітень',
-      'травень',
-      'червень',
-      'липень',
-      'серпень',
-      'вересень',
-      'жовтень',
-      'листопад',
-      'грудень',
+      'Січень',
+      'Лютий',
+      'Березень',
+      'Квітень',
+      'Травень',
+      'Червень',
+      'Липень',
+      'Серпень',
+      'Вересень',
+      'Жовтень',
+      'Листопад',
+      'Грудень',
     ];
     return monthNames[month];
   }

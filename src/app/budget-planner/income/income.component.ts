@@ -316,6 +316,7 @@ import {
 import { Router } from '@angular/router';
 import moment from 'moment';
 import 'moment/locale/uk';
+import { IncomeService } from '../income/income.service';
 
 @Component({
   selector: 'app-income',
@@ -360,7 +361,7 @@ export class IncomeComponent {
 
   constructor(public fb: FormBuilder, public router: Router) {
     const currentDate = new Date();
-    // this.selectedMonth = moment().locale('uk').format('MMMM');
+    this.selectedMonth = moment().locale('uk').format('MMMM');
 
     if (typeof localStorage !== 'undefined') {
       const incomeSourcesString = localStorage.getItem('incomeSources');
@@ -914,6 +915,34 @@ export class IncomeComponent {
       this.incomeForm.patchValue({ month: selectedMonth });
       this.calculateTotalIncome(this.selectedMonth);
     }
+  }
+
+  getTotalIncome(): number {
+    let totalIncome = 0;
+
+    const januaryIncomes = JSON.parse(
+      localStorage.getItem('januaryIncomes') ?? '[]'
+    );
+    const februaryIncomes = JSON.parse(
+      localStorage.getItem('februaryIncomes') ?? '[]'
+    );
+    const marchIncomes = JSON.parse(
+      localStorage.getItem('marchIncomes') ?? '[]'
+    );
+
+    totalIncome += this.calculateTotalIncomeForMonth(januaryIncomes);
+    totalIncome += this.calculateTotalIncomeForMonth(februaryIncomes);
+    totalIncome += this.calculateTotalIncomeForMonth(marchIncomes);
+
+    return totalIncome;
+  }
+
+  private calculateTotalIncomeForMonth(incomes: any[]): number {
+    let totalIncome = 0;
+    incomes.forEach((income: any) => {
+      totalIncome += income.amount;
+    });
+    return totalIncome;
   }
 
   onSourceChange(event: any) {

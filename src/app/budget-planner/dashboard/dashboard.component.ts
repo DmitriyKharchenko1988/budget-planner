@@ -103,9 +103,13 @@ export class DashboardComponent implements OnInit {
       const monthDate = new Date();
       monthDate.setMonth(currentMonth - index);
       const monthName = this.incomeService.getMonthNameByDate(monthDate);
-      return `${monthName}: ${income} грн.`;
+      return `${monthName}: ${income.totalIncome} грн.`;
     });
-    this.totalIncome = lastThreeMonthsIncomes[0]; // Общая сумма дохода за текущий месяц
+    this.totalIncome =
+      lastThreeMonthsIncomes.length > 0
+        ? lastThreeMonthsIncomes[0].totalIncome
+        : 0;
+    // Общая сумма дохода за текущий месяц
   }
 
   onIncome() {
